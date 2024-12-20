@@ -2,10 +2,16 @@ import classNames from "classnames";
 import { Container } from "../Container/Container";
 import style from "./Navigation.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { changeCategory } from "../../Store/category/categorySlice";
+import { categoryRequestAsync, changeCategory } from "../../Store/category/categorySlice";
+import { useEffect } from "react";
+import { API_URI } from "../../const";
 export const Navigation = () => {
     const { category, activeCategory } = useSelector((state) => state.category);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(categoryRequestAsync())
+    }, [])
 
     return (
         <>
@@ -13,7 +19,7 @@ export const Navigation = () => {
                 <Container className={style.container}>
                     <ul className={style.list}>
                         {category.map((item, i) => (
-                            <li key={i} className={style.item}>
+                            <li key={item.title} className={style.item}>
                                 <button
                                     className={classNames(
                                         style.button,
@@ -22,12 +28,14 @@ export const Navigation = () => {
                                             : ""
                                     )}
                                     style={{
-                                        backgroundImage: `url(${item.image})`,
+                                        backgroundImage: `url(${API_URI}/${item.image})`,
                                     }}
                                     onClick={() => {
-                                        dispatch(changeCategory({
-                                            indexCategory: i
-                                        }))
+                                        dispatch(
+                                            changeCategory({
+                                                indexCategory: i,
+                                            })
+                                        );
                                     }}
                                 >
                                     {item.rus}
