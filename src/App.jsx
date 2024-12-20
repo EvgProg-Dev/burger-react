@@ -1,11 +1,15 @@
+import { Catalog } from "./components/Catalog/Catalog";
 import { Header } from "./components/Header/Header";
-import { Container } from "./components/Container/Container";
+import { Navigation } from "./components/Navigation/Navigation";
 
 export const App = () => {
     return (
         <>
             <Header />
-            <Container />
+            <main>
+              <Navigation />
+              <Catalog />
+            </main>
         </>
     );
 };
